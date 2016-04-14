@@ -18,6 +18,11 @@ var CalculatorActions = {
     CalculatorDispatcher.dispatch({
       eventType: EventType.CALCULATE_VALUE,
     });
+  },
+  clearInput: function() {
+    CalculatorDispatcher.dispatch({
+      eventType: EventType.CLEAR_INPUT,
+    });
   }
 };
 

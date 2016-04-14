@@ -43,6 +43,8 @@ class CalculatorStore extends ReduceStore {
         return state.push(action.operator);
       case EventType.CALCULATE_VALUE:
         return calculateValue(state);
+      case EventType.CLEAR_INPUT:
+        return new Immutable.List();
       default:
         return state;
     }

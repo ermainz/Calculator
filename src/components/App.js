@@ -6,6 +6,7 @@ import CalculatorActions from '../actions/calculator-actions';
 import CalculatorStore from '../stores/calculator-store';
 import DigitButton from '../components/digit-button';
 import OperatorButton from '../components/operator-button';
+import ClearButton from '../components/clear-button';
 
 export default class App extends Component {
 
@@ -59,7 +60,7 @@ export default class App extends Component {
           <h1 style={displayStyle}>{ displayValue }</h1>
         </Paper>
         <div>
-          <RaisedButton label="AC" primary={true} style={buttonStyle} />
+          <ClearButton/>
           <OperatorButton operator={'/'}/>
         </div>
         <div>
