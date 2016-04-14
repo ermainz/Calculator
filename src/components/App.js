@@ -5,6 +5,7 @@ import Paper from 'material-ui/lib/paper';
 import CalculatorActions from '../actions/calculator-actions';
 import CalculatorStore from '../stores/calculator-store';
 import DigitButton from '../components/digit-button';
+import OperatorButton from '../components/operator-button';
 
 export default class App extends Component {
 
@@ -27,12 +28,6 @@ export default class App extends Component {
 
   componentWillUnmount() {
     this.state.storeToken.remove();
-  }
-
-  addOperator(operator) {
-    return function(event) {
-      CalculatorActions.addOperator(operator);
-    }
   }
 
   computeValue(event) {
@@ -65,25 +60,25 @@ export default class App extends Component {
         </Paper>
         <div>
           <RaisedButton label="AC" primary={true} style={buttonStyle} />
-          <RaisedButton label="/" onClick={this.addOperator('/')} secondary={true} style={buttonStyle} />
+          <OperatorButton operator={'/'}/>
         </div>
         <div>
           <DigitButton value={7}/>
           <DigitButton value={8}/>
           <DigitButton value={9}/>
-          <RaisedButton label="*" onClick={this.addOperator('*')} secondary={true} style={buttonStyle} />
+          <OperatorButton operator={'*'}/>
         </div>
         <div>
           <DigitButton value={4}/>
           <DigitButton value={5}/>
           <DigitButton value={6}/>
-          <RaisedButton label="-" onClick={this.addOperator('-')} secondary={true} style={buttonStyle} />
+          <OperatorButton operator={'-'}/>
         </div>
         <div>
           <DigitButton value={1}/>
           <DigitButton value={2}/>
           <DigitButton value={3}/>
-          <RaisedButton label="+" onClick={this.addOperator('+')} secondary={true} style={buttonStyle} />
+          <OperatorButton operator={'+'}/>
         </div>
         <div>
           <DigitButton value={0}/>
