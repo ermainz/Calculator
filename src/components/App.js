@@ -4,6 +4,7 @@ import Paper from 'material-ui/lib/paper';
 
 import CalculatorActions from '../actions/calculator-actions';
 import CalculatorStore from '../stores/calculator-store';
+import DigitButton from '../components/digit-button';
 
 export default class App extends Component {
 
@@ -26,12 +27,6 @@ export default class App extends Component {
 
   componentWillUnmount() {
     this.state.storeToken.remove();
-  }
-
-  addNumber(number) {
-    return function(event) {
-      CalculatorActions.addNumber(number);
-    };
   }
 
   addOperator(operator) {
@@ -73,25 +68,25 @@ export default class App extends Component {
           <RaisedButton label="/" onClick={this.addOperator('/')} secondary={true} style={buttonStyle} />
         </div>
         <div>
-          <RaisedButton label="7" onClick={this.addNumber(7)} style={buttonStyle} />
-          <RaisedButton label="8" onClick={this.addNumber(8)} style={buttonStyle} />
-          <RaisedButton label="9" onClick={this.addNumber(9)} style={buttonStyle} />
+          <DigitButton value={7}/>
+          <DigitButton value={8}/>
+          <DigitButton value={9}/>
           <RaisedButton label="*" onClick={this.addOperator('*')} secondary={true} style={buttonStyle} />
         </div>
         <div>
-          <RaisedButton label="4" onClick={this.addNumber(4)} style={buttonStyle} />
-          <RaisedButton label="5" onClick={this.addNumber(5)} style={buttonStyle} />
-          <RaisedButton label="6" onClick={this.addNumber(6)} style={buttonStyle} />
+          <DigitButton value={4}/>
+          <DigitButton value={5}/>
+          <DigitButton value={6}/>
           <RaisedButton label="-" onClick={this.addOperator('-')} secondary={true} style={buttonStyle} />
         </div>
         <div>
-          <RaisedButton label="1" onClick={this.addNumber(1)} style={buttonStyle} />
-          <RaisedButton label="2" onClick={this.addNumber(2)} style={buttonStyle} />
-          <RaisedButton label="3" onClick={this.addNumber(3)} style={buttonStyle} />
+          <DigitButton value={1}/>
+          <DigitButton value={2}/>
+          <DigitButton value={3}/>
           <RaisedButton label="+" onClick={this.addOperator('+')} secondary={true} style={buttonStyle} />
         </div>
         <div>
-          <RaisedButton label="0" onClick={this.addNumber(0)} style={buttonStyle} />
+          <DigitButton value={0}/>
           <RaisedButton label="=" onClick={this.computeValue} primary={true} style={buttonStyle} />
         </div>
       </Paper>
