@@ -13,6 +13,11 @@ var CalculatorActions = {
       eventType: EventType.OPERATOR_ADDED,
       operator
     });
+  },
+  computeValue: function() {
+    CalculatorDispatcher.dispatch({
+      eventType: EventType.CALCULATE_VALUE,
+    });
   }
 };
 

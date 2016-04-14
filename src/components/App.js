@@ -40,6 +40,10 @@ export default class App extends Component {
     }
   }
 
+  computeValue(event) {
+    CalculatorActions.computeValue();
+  }
+
   render() {
     const buttonStyle = {
       margin: 12,
@@ -72,7 +76,7 @@ export default class App extends Component {
           <RaisedButton label="7" onClick={this.addNumber(7)} style={buttonStyle} />
           <RaisedButton label="8" onClick={this.addNumber(8)} style={buttonStyle} />
           <RaisedButton label="9" onClick={this.addNumber(9)} style={buttonStyle} />
-          <RaisedButton label="X" onClick={this.addOperator('X')} secondary={true} style={buttonStyle} />
+          <RaisedButton label="*" onClick={this.addOperator('*')} secondary={true} style={buttonStyle} />
         </div>
         <div>
           <RaisedButton label="4" onClick={this.addNumber(4)} style={buttonStyle} />
@@ -88,7 +92,7 @@ export default class App extends Component {
         </div>
         <div>
           <RaisedButton label="0" onClick={this.addNumber(0)} style={buttonStyle} />
-          <RaisedButton label="=" primary={true} style={buttonStyle} />
+          <RaisedButton label="=" onClick={this.computeValue} primary={true} style={buttonStyle} />
         </div>
       </Paper>
     );

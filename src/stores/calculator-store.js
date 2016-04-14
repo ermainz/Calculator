@@ -4,9 +4,34 @@ import Immutable from 'immutable';
 import CalculatorDispatcher from '../dispatchers/calculator-dispatcher';
 import { EventType } from '../constants/constants';
 
+function calculateValue(state) {
+  let num1 = state.get(0);
+  let op = state.get(1);
+  let num2 = state.get(2);
+  let value;
+  switch(op) {
+    case '+':
+      value = num1 + num2;
+      break;
+    case '-':
+      value = num1 - num2;
+      break;
+    case '*':
+      value = num1 * num2;
+      break;
+    case '/':
+      value = num1 / num2;
+      break;
+    default:
+      console.log("Unrecognized operator, op=" + op);
+      return state;
+  }
+  return Immutable.List.of(value);
+}
+
 class CalculatorStore extends ReduceStore {
   getInitialState() {
-    return Immutable.List.of([]);
+    return new Immutable.List();
   }
 
   reduce(state, action) {
@@ -16,6 +41,8 @@ class CalculatorStore extends ReduceStore {
       case EventType.OPERATOR_ADDED:
         console.log(action.operator);
         return state.push(action.operator);
+      case EventType.CALCULATE_VALUE:
+        return calculateValue(state);
       default:
         return state;
     }
