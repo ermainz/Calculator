@@ -55,7 +55,13 @@ class CalculatorStore extends ReduceStore {
   }
 
   getDisplayValue() {
-    return this.getState().join(' ');
+    return this.getState().reduce((previousValue, currentValue, currentIndex, array) => {
+      if (typeof currentValue === 'string') {
+        return previousValue + ' ' + currentValue + ' ';
+      } else {
+        return previousValue + currentValue;
+      }
+    }, '');
   }
 }
 
