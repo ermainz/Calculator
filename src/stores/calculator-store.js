@@ -4,10 +4,14 @@ import Immutable from 'immutable';
 import CalculatorDispatcher from '../dispatchers/calculator-dispatcher';
 import { EventType } from '../constants/constants';
 
+const NUM_ONE = 0;
+const OP = 1;
+const NUM_TWO = 2;
+
 function calculateValue(state) {
-  let num1 = state.get(0);
-  let op = state.get(1);
-  let num2 = state.get(2);
+  let num1 = state.get(NUM_ONE);
+  let op = state.get(OP);
+  let num2 = state.get(NUM_TWO);
   let value;
   switch(op) {
     case '+':
@@ -29,6 +33,8 @@ function calculateValue(state) {
   return Immutable.List.of(value);
 }
 
+let operatorAdded = false;
+
 class CalculatorStore extends ReduceStore {
   getInitialState() {
     return new Immutable.List();
@@ -37,12 +43,21 @@ class CalculatorStore extends ReduceStore {
   reduce(state, action) {
     switch (action.eventType) {
       case EventType.NUMBER_ADDED:
-        return state.push(action.number);
+        if (operatorAdded) {
+          let newNum2 = state.get(NUM_TWO) ? (state.get(NUM_TWO) * 10) + action.number : action.number;
+          return state.set(NUM_TWO, newNum2);
+        } else {
+          let newNum1 = state.get(NUM_ONE) ? (state.get(NUM_ONE) * 10) + action.number : action.number;
+          return state.set(NUM_ONE, newNum1);
+        }
       case EventType.OPERATOR_ADDED:
-        return state.push(action.operator);
+        operatorAdded = true;
+        return state.set(OP, action.operator);
       case EventType.CALCULATE_VALUE:
+        operatorAdded = false;
         return calculateValue(state);
       case EventType.CLEAR_INPUT:
+        operatorAdded = false;
         return new Immutable.List();
       default:
         return state;
@@ -54,13 +69,22 @@ class CalculatorStore extends ReduceStore {
   }
 
   getDisplayValue() {
-    return this.getState().reduce((previousValue, currentValue, currentIndex, array) => {
-      if (typeof currentValue === 'string') {
-        return previousValue + ' ' + currentValue + ' ';
-      } else {
-        return previousValue + currentValue;
-      }
-    }, '');
+    let state = this.getState();
+    let num1 = state.get(NUM_ONE);
+    let op = state.get(OP);
+    let num2 = state.get(NUM_TWO);
+
+    let displayValue = '';
+    if (num1) {
+      displayValue += num1;
+    }
+    if (op) {
+      displayValue += ' ' + op + ' ';
+    }
+    if (num2) {
+      displayValue += num2;
+    }
+    return displayValue;
   }
 }
 

@@ -134,4 +134,68 @@ describe('CalculatorStore', function() {
     let clearedDisplayValue = CalculatorStore.getDisplayValue();
     expect(clearedDisplayValue).toBe('');
   });
+
+  it('evaluates 2 digit addition', function() {
+    callback(buildNumberAddedAction(1));
+    callback(buildNumberAddedAction(2));
+    callback(buildOperatorAddedAction('+'));
+    callback(buildNumberAddedAction(7));
+    callback(buildNumberAddedAction(9));
+    callback(buildCalculateValueAction());
+
+    let state = CalculatorStore.getState();
+    expect(state.get(0)).toBe(91);
+  });
+
+  it('evaluates 2 digit subtraction', function() {
+    callback(buildNumberAddedAction(9));
+    callback(buildNumberAddedAction(7));
+    callback(buildOperatorAddedAction('-'));
+    callback(buildNumberAddedAction(2));
+    callback(buildNumberAddedAction(5));
+    callback(buildCalculateValueAction());
+
+    let state = CalculatorStore.getState();
+    expect(state.get(0)).toBe(72);
+  });
+
+  it('evaluates 2 digit multiplication', function() {
+    callback(buildNumberAddedAction(2));
+    callback(buildNumberAddedAction(3));
+    callback(buildOperatorAddedAction('*'));
+    callback(buildNumberAddedAction(3));
+    callback(buildNumberAddedAction(4));
+    callback(buildCalculateValueAction());
+
+    let state = CalculatorStore.getState();
+    expect(state.get(0)).toBe(782);
+  });
+
+  it('evaluates 2 digit division', function() {
+    callback(buildNumberAddedAction(7));
+    callback(buildNumberAddedAction(2));
+    callback(buildOperatorAddedAction('/'));
+    callback(buildNumberAddedAction(1));
+    callback(buildNumberAddedAction(2));
+    callback(buildCalculateValueAction());
+
+    let state = CalculatorStore.getState();
+    expect(state.get(0)).toBe(6);
+  });
+
+  it('evaluates multi digit addition', function() {
+    callback(buildNumberAddedAction(1));
+    callback(buildNumberAddedAction(2));
+    callback(buildNumberAddedAction(3));
+    callback(buildNumberAddedAction(4));
+    callback(buildOperatorAddedAction('+'));
+    callback(buildNumberAddedAction(5));
+    callback(buildNumberAddedAction(6));
+    callback(buildNumberAddedAction(7));
+    callback(buildNumberAddedAction(8));
+    callback(buildCalculateValueAction());
+
+    let state = CalculatorStore.getState();
+    expect(state.get(0)).toBe(6912);
+  });
 });
