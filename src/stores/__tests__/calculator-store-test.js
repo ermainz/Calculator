@@ -200,7 +200,7 @@ describe('CalculatorStore', function() {
   });
 
   it('calculates value when a second operator is added', function() {
-    callback(buildNumberAddedAction(1))
+    callback(buildNumberAddedAction(1));
     callback(buildOperatorAddedAction('+'));
     callback(buildNumberAddedAction(5));
 
@@ -210,5 +210,10 @@ describe('CalculatorStore', function() {
 
     expect(CalculatorStore.getDisplayValue()).toBe('6 + ');
     expect(CalculatorStore.getState().get(0)).toBe(6);
+  });
+
+  it ('displays 0 correctly', function() {
+    callback(buildNumberAddedAction(0));
+    expect(CalculatorStore.getDisplayValue()).toBe('0');
   });
 });

@@ -80,13 +80,13 @@ class CalculatorStore extends ReduceStore {
     let num2 = state.get(NUM_TWO);
 
     let displayValue = '';
-    if (num1) {
+    if (num1 !== undefined) {
       displayValue += num1;
     }
-    if (op) {
+    if (op !== undefined) {
       displayValue += ' ' + op + ' ';
     }
-    if (num2) {
+    if (num2 !== undefined) {
       displayValue += num2;
     }
     return displayValue;
