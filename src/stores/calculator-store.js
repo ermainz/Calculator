@@ -65,4 +65,4 @@ class CalculatorStore extends ReduceStore {
 }
 
 const instance = new CalculatorStore(CalculatorDispatcher);
-export default instance;
+module.exports = instance;
