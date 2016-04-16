@@ -80,9 +80,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(5));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.size).toBe(1);
-    expect(state.get(0)).toBe(7);
+    expect(CalculatorStore.getDisplayValue()).toBe('7');
   });
 
   it('evaluates single digit subtraction', function() {
@@ -91,9 +89,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(5));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.size).toBe(1);
-    expect(state.get(0)).toBe(3);
+    expect(CalculatorStore.getDisplayValue()).toBe('3');
   });
 
   it('evaluates single digit multiplication', function() {
@@ -102,9 +98,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(6));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.size).toBe(1);
-    expect(state.get(0)).toBe(18);
+    expect(CalculatorStore.getDisplayValue()).toBe('18');
   });
 
   it('evaluates single digit division', function() {
@@ -113,9 +107,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(4));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.size).toBe(1);
-    expect(state.get(0)).toBe(2);
+    expect(CalculatorStore.getDisplayValue()).toBe('2');
   });
 
   it('clears input', function() {
@@ -143,8 +135,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(9));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.get(0)).toBe(91);
+    expect(CalculatorStore.getDisplayValue()).toBe('91');
   });
 
   it('evaluates 2 digit subtraction', function() {
@@ -155,8 +146,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(5));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.get(0)).toBe(72);
+    expect(CalculatorStore.getDisplayValue()).toBe('72');
   });
 
   it('evaluates 2 digit multiplication', function() {
@@ -167,8 +157,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(4));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.get(0)).toBe(782);
+    expect(CalculatorStore.getDisplayValue()).toBe('782');
   });
 
   it('evaluates 2 digit division', function() {
@@ -179,8 +168,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(2));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.get(0)).toBe(6);
+    expect(CalculatorStore.getDisplayValue()).toBe('6');
   });
 
   it('evaluates multi digit addition', function() {
@@ -195,8 +183,7 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(8));
     callback(buildCalculateValueAction());
 
-    let state = CalculatorStore.getState();
-    expect(state.get(0)).toBe(6912);
+    expect(CalculatorStore.getDisplayValue()).toBe('6912');
   });
 
   it('calculates value when a second operator is added', function() {
@@ -209,7 +196,6 @@ describe('CalculatorStore', function() {
     callback(buildOperatorAddedAction('+'));
 
     expect(CalculatorStore.getDisplayValue()).toBe('6 + ');
-    expect(CalculatorStore.getState().get(0)).toBe(6);
   });
 
   it('displays 0 correctly', function() {
@@ -223,9 +209,9 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(3));
     callback(buildCalculateValueAction());
 
-    expect(CalculatorStore.getState().get(0)).toBe(4);
+    expect(CalculatorStore.getDisplayValue()).toBe('4');
 
     callback(buildNumberAddedAction(5));
-    expect(CalculatorStore.getState().get(0)).toBe(5);
+    expect(CalculatorStore.getDisplayValue()).toBe('5');
   });
 });
