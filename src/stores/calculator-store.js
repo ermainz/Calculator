@@ -8,6 +8,10 @@ const NUM_ONE = 0;
 const OP = 1;
 const NUM_TWO = 2;
 
+function buildCleanState() {
+  return new Immutable.List();
+}
+
 function calculateValue(state) {
   let num1 = state.get(NUM_ONE);
   let op = state.get(OP);
@@ -30,42 +34,52 @@ function calculateValue(state) {
       console.log("Unrecognized operator, op=" + op);
       return state;
   }
-  return Immutable.List.of(value);
+  let newState = buildCleanState();
+  return newState.set(NUM_ONE, value);
 }
 
 let operatorAdded = false;
+let clearOnNextNumber = false;
 
 class CalculatorStore extends ReduceStore {
   getInitialState() {
-    return new Immutable.List();
+    return buildCleanState();
   }
 
   reduce(state, action) {
+    let newState = state;
     switch (action.eventType) {
       case EventType.NUMBER_ADDED:
+        if (clearOnNextNumber) {
+          newState = buildCleanState();
+          clearOnNextNumber = false;
+        }
         if (operatorAdded) {
-          let newNum2 = state.get(NUM_TWO) ? (state.get(NUM_TWO) * 10) + action.number : action.number;
-          return state.set(NUM_TWO, newNum2);
+          let newNum2 = newState.get(NUM_TWO) ? (newState.get(NUM_TWO) * 10) + action.number : action.number;
+          return newState.set(NUM_TWO, newNum2);
         } else {
-          let newNum1 = state.get(NUM_ONE) ? (state.get(NUM_ONE) * 10) + action.number : action.number;
-          return state.set(NUM_ONE, newNum1);
+          let newNum1 = newState.get(NUM_ONE) ? (newState.get(NUM_ONE) * 10) + action.number : action.number;
+          return newState.set(NUM_ONE, newNum1);
         }
       case EventType.OPERATOR_ADDED:
-        let newState = state;
+        clearOnNextNumber = false;
+        let newState = newState;
         // if we're already inputting the second number, calculate the current expression
         if (operatorAdded) {
-          newState = calculateValue(state);
+          newState = calculateValue(newState);
         }
         operatorAdded = true;
         return newState.set(OP, action.operator);
       case EventType.CALCULATE_VALUE:
+        clearOnNextNumber = true;
         operatorAdded = false;
-        return calculateValue(state);
+        return calculateValue(newState);
       case EventType.CLEAR_INPUT:
+        clearOnNextNumber = false;
         operatorAdded = false;
-        return new Immutable.List();
+        return buildCleanState();
       default:
-        return state;
+        return newState;
     }
   }
 

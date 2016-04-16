@@ -212,8 +212,20 @@ describe('CalculatorStore', function() {
     expect(CalculatorStore.getState().get(0)).toBe(6);
   });
 
-  it ('displays 0 correctly', function() {
+  it('displays 0 correctly', function() {
     callback(buildNumberAddedAction(0));
     expect(CalculatorStore.getDisplayValue()).toBe('0');
+  });
+
+  it('clears the input when entering a number after hitting calculate', function() {
+    callback(buildNumberAddedAction(1));
+    callback(buildOperatorAddedAction('+'));
+    callback(buildNumberAddedAction(3));
+    callback(buildCalculateValueAction());
+
+    expect(CalculatorStore.getState().get(0)).toBe(4);
+
+    callback(buildNumberAddedAction(5));
+    expect(CalculatorStore.getState().get(0)).toBe(5);
   });
 });
