@@ -39,7 +39,6 @@ class CalculatorStore extends ReduceStore {
       case EventType.NUMBER_ADDED:
         return state.push(action.number);
       case EventType.OPERATOR_ADDED:
-        console.log(action.operator);
         return state.push(action.operator);
       case EventType.CALCULATE_VALUE:
         return calculateValue(state);
