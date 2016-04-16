@@ -51,8 +51,13 @@ class CalculatorStore extends ReduceStore {
           return state.set(NUM_ONE, newNum1);
         }
       case EventType.OPERATOR_ADDED:
+        let newState = state;
+        // if we're already inputting the second number, calculate the current expression
+        if (operatorAdded) {
+          newState = calculateValue(state);
+        }
         operatorAdded = true;
-        return state.set(OP, action.operator);
+        return newState.set(OP, action.operator);
       case EventType.CALCULATE_VALUE:
         operatorAdded = false;
         return calculateValue(state);

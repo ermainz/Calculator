@@ -198,4 +198,17 @@ describe('CalculatorStore', function() {
     let state = CalculatorStore.getState();
     expect(state.get(0)).toBe(6912);
   });
+
+  it('calculates value when a second operator is added', function() {
+    callback(buildNumberAddedAction(1))
+    callback(buildOperatorAddedAction('+'));
+    callback(buildNumberAddedAction(5));
+
+    expect(CalculatorStore.getDisplayValue()).toBe('1 + 5');
+
+    callback(buildOperatorAddedAction('+'));
+
+    expect(CalculatorStore.getDisplayValue()).toBe('6 + ');
+    expect(CalculatorStore.getState().get(0)).toBe(6);
+  });
 });
