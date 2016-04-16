@@ -9,7 +9,7 @@ const OP = 1;
 const NUM_TWO = 2;
 
 function buildCleanState() {
-  return new Immutable.List();
+  return new Immutable.Map();
 }
 
 function calculateValue(state) {
