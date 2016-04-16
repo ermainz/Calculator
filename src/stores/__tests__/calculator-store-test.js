@@ -117,4 +117,21 @@ describe('CalculatorStore', function() {
     expect(state.size).toBe(1);
     expect(state.get(0)).toBe(2);
   });
+
+  it('clears input', function() {
+    callback(buildNumberAddedAction(1));
+    callback(buildNumberAddedAction(2));
+    callback(buildNumberAddedAction(3));
+    callback(buildOperatorAddedAction('+'));
+    callback(buildNumberAddedAction(4));
+    callback(buildNumberAddedAction(5));
+    callback(buildNumberAddedAction(6));
+
+    let initialDisplayValue = CalculatorStore.getDisplayValue();
+    expect(initialDisplayValue).toBe('123 + 456');
+
+    callback(buildClearInputAction());
+    let clearedDisplayValue = CalculatorStore.getDisplayValue();
+    expect(clearedDisplayValue).toBe('');
+  });
 });
