@@ -31,6 +31,10 @@ function calculateValue(state) {
   let num1 = state.get(NUM_ONE);
   let op = state.get(OP);
   let num2 = state.get(NUM_TWO);
+  if (num2 === undefined) {
+    // if we don't have a second number yet, leave the state as-is
+    return state;
+  }
   let value;
   switch(op) {
     case '+':

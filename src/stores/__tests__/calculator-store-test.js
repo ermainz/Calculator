@@ -218,4 +218,13 @@ describe('CalculatorStore', function() {
     callback(buildNumberAddedAction(5));
     expect(CalculatorStore.getDisplayValue()).toBe('5');
   });
+
+  it('ignores calculate value without a second number', function() {
+    callback(buildNumberAddedAction(1));
+    callback(buildOperatorAddedAction('+'));
+    expect(CalculatorStore.getDisplayValue()).toBe('1 + ');
+
+    callback(buildCalculateValueAction());
+    expect(CalculatorStore.getDisplayValue()).toBe('1 + ');
+  });
 });
