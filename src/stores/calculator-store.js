@@ -7,16 +7,27 @@ import { EventType } from '../constants/constants';
 const NUM_ONE = 'NUM_ONE';
 const OP = 'OP';
 const NUM_TWO = 'NUM_TWO';
-const NUM_TWO = 'NUM_TWO';
+const CLEAR_ON_NEXT_NUMBER = 'CLEAR_ON_NEXT_NUMBER';
+const NUMBER_UPDATER = 'NUMBER_UPDATER';
 
+/**
+ * Returns a fresh calculator state.
+ *
+ * NUM_ONE: first number - default undefined,
+ * OP: operator - default undefined,
+ * NUM_TWO: second number - default undefined,
+ * CLEAR_ON_NEXT_NUMBER: the user just hit "=" so the result is displayed, if the user presses another number we want to treat that as a clear - updated when value is calculated - default false,
+ * NUMBER_UPDATER: function used to update the current number - updated when operator is added - default addDigitToNumberOne
+ */
 function buildCleanState() {
-  return new Immutable.Map();
+  return new Immutable.Map({CLEAR_ON_NEXT_NUMBER: false, NUMBER_UPDATER: addDigitToNumberOne});
 }
 
+/**
+ * Evaluates the epxression of number one, operator, and number two. Places the result into number one, 
+ * clearing the rest of the state.
+ */
 function calculateValue(state) {
-  clearOnNextNumber = true;
-  operatorAdded = false;
-
   let num1 = state.get(NUM_ONE);
   let op = state.get(OP);
   let num2 = state.get(NUM_TWO);
@@ -39,43 +50,38 @@ function calculateValue(state) {
       return state;
   }
   let newState = buildCleanState();
-  return newState.set(NUM_ONE, value);
+  return newState.set(NUM_ONE, value).set(CLEAR_ON_NEXT_NUMBER, true);
 }
 
-function handleNumberAdded(state, number ) {
+function addDigit(state, newNumber, target) {
+  let newValue = state.get(target) ? (state.get(target) * 10) + newNumber : newNumber;
+  return state.set(target, newValue);
+}
+
+function addDigitToNumberOne(state, number) {
+  return addDigit(state, number, NUM_ONE);
+}
+
+function addDigitToNumberTwo(state, number) {
+  return addDigit(state, number, NUM_TWO);
+}
+
+function addNumber(state, number ) {
   let newState = state;
-  if (clearOnNextNumber) {
+  if (newState.get(CLEAR_ON_NEXT_NUMBER)) {
     newState = buildCleanState();
-    clearOnNextNumber = false;
   }
-  if (operatorAdded) {
-    let newNum2 = newState.get(NUM_TWO) ? (newState.get(NUM_TWO) * 10) + number : number;
-    return newState.set(NUM_TWO, newNum2);
-  } else {
-    let newNum1 = newState.get(NUM_ONE) ? (newState.get(NUM_ONE) * 10) + number : number;
-    return newState.set(NUM_ONE, newNum1);
-  }
+  return newState.get(NUMBER_UPDATER)(newState, number);
 }
 
-function handleOperatorAdded(state, operator) {
-  let newState = state;
-  clearOnNextNumber = false;
+function addOperator(state, operator) {
+  let newState = state.set(CLEAR_ON_NEXT_NUMBER, false);
   // if we're already inputting the second number, calculate the current expression
-  if (operatorAdded) {
+  if (state.get(NUM_TWO) !== undefined) {
     newState = calculateValue(newState);
   }
-  operatorAdded = true;
-  return newState.set(OP, operator);
+  return newState.set(OP, operator).set(NUMBER_UPDATER, addDigitToNumberTwo);
 }
-
-function handleClearInput(state) {
-  clearOnNextNumber = false;
-  operatorAdded = false;
-  return buildCleanState();
-}
-
-let operatorAdded = false;
-let clearOnNextNumber = false;
 
 class CalculatorStore extends ReduceStore {
   getInitialState() {
@@ -85,13 +91,13 @@ class CalculatorStore extends ReduceStore {
   reduce(state, action) {
     switch (action.eventType) {
       case EventType.NUMBER_ADDED:
-        return handleNumberAdded(state, action.number);
+        return addNumber(state, action.number);
       case EventType.OPERATOR_ADDED:
-        return handleOperatorAdded(state, action.operator);
+        return addOperator(state, action.operator);
       case EventType.CALCULATE_VALUE:
         return calculateValue(state);
       case EventType.CLEAR_INPUT:
-        return handleClearInput(state);
+        return buildCleanState();
       default:
         return state;
     }
