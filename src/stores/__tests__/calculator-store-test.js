@@ -227,4 +227,9 @@ describe('CalculatorStore', function() {
     callback(buildCalculateValueAction());
     expect(CalculatorStore.getDisplayValue()).toBe('1 + ');
   });
+
+  it('ignore operator without first number', function() {
+    callback(buildOperatorAddedAction('+'));
+    expect(CalculatorStore.getDisplayValue()).toBe('');
+  });
 });

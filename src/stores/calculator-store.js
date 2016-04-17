@@ -79,6 +79,10 @@ function addNumber(state, number ) {
 }
 
 function addOperator(state, operator) {
+  if (state.get(NUM_ONE) === undefined) {
+    // if we don't have a first number yet, ignore the operator
+    return state;
+  }
   let newState = state;
   // if we're already inputting the second number, calculate the current expression
   if (state.get(NUM_TWO) !== undefined) {
