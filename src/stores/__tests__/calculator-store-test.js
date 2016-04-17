@@ -196,6 +196,10 @@ describe('CalculatorStore', function() {
     callback(buildOperatorAddedAction('+'));
 
     expect(CalculatorStore.getDisplayValue()).toBe('6 + ');
+
+    callback(buildNumberAddedAction(4));
+
+    expect(CalculatorStore.getDisplayValue()).toBe('6 + 4');
   });
 
   it('displays 0 correctly', function() {

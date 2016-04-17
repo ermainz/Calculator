@@ -75,11 +75,12 @@ function addNumber(state, number ) {
 }
 
 function addOperator(state, operator) {
-  let newState = state.set(CLEAR_ON_NEXT_NUMBER, false);
+  let newState = state;
   // if we're already inputting the second number, calculate the current expression
   if (state.get(NUM_TWO) !== undefined) {
     newState = calculateValue(newState);
   }
+  newState = newState.set(CLEAR_ON_NEXT_NUMBER, false);
   return newState.set(OP, operator).set(NUMBER_UPDATER, addDigitToNumberTwo);
 }
 
