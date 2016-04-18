@@ -18,14 +18,12 @@ export default class App extends Component {
   }
 
   onStoreChange = () => {
-    console.log("CHANGED");
     let displayValue = CalculatorStore.getDisplayValue();
     this.setState({displayValue});
   }
 
   componentWillMount() {
     let storeToken = CalculatorStore.addListener(this.onStoreChange);
-    console.log("STORE_TOKEN::" + storeToken);
     this.setState({storeToken});
   }
 
