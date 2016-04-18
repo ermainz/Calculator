@@ -8,6 +8,7 @@ import DigitButton from '../components/digit-button';
 import OperatorButton from '../components/operator-button';
 import ClearButton from '../components/clear-button';
 import EqualButton from '../components/equal-button';
+import Display from '../components/display';
 
 export default class App extends Component {
 
@@ -33,11 +34,6 @@ export default class App extends Component {
   }
 
   render() {
-    const displayStyle = {
-      padding: 12,
-      margin: 0,
-      textAlign: 'right'
-    };
     const paperStyle = {
       width: 488,
       margin: 'auto',
@@ -45,14 +41,9 @@ export default class App extends Component {
       padding: 20
     };
     let { displayValue } = this.state;
-    if (!displayValue || displayValue.length === 0) {
-      displayValue = (<i style={{color: '#d3d3d3'}}>Want to click something?</i>);
-    }
     return (
       <Paper style={paperStyle}>
-        <Paper>
-          <h1 style={displayStyle}>{ displayValue }</h1>
-        </Paper>
+        <Display displayValue={ displayValue }/>
         <div>
           <ClearButton/>
           <OperatorButton operator={'/'}/>
