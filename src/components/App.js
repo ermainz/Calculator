@@ -7,6 +7,7 @@ import CalculatorStore from '../stores/calculator-store';
 import DigitButton from '../components/digit-button';
 import OperatorButton from '../components/operator-button';
 import ClearButton from '../components/clear-button';
+import EqualButton from '../components/equal-button';
 
 export default class App extends Component {
 
@@ -31,14 +32,7 @@ export default class App extends Component {
     this.state.storeToken.remove();
   }
 
-  computeValue(event) {
-    CalculatorActions.computeValue();
-  }
-
   render() {
-    const buttonStyle = {
-      margin: 12,
-    };
     const displayStyle = {
       padding: 12,
       margin: 0,
@@ -83,7 +77,7 @@ export default class App extends Component {
         </div>
         <div>
           <DigitButton value={0}/>
-          <RaisedButton label="=" onClick={this.computeValue} primary={true} style={buttonStyle} />
+          <EqualButton/>
         </div>
       </Paper>
     );
