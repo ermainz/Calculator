@@ -16,7 +16,7 @@ const NUMBER_UPDATER = 'NUMBER_UPDATER';
  * NUM_ONE: first number - default undefined,
  * OP: operator - default undefined,
  * NUM_TWO: second number - default undefined,
- * CLEAR_ON_NEXT_NUMBER: the user just hit "=" so the result is displayed, if the user presses another number we want to treat that as a clear - updated when value is calculated - default false,
+ * CLEAR_ON_NEXT_NUMBER: the user just hit '=' so the result is displayed, if the user presses another number we want to treat that as a clear - updated when value is calculated - default false,
  * NUMBER_UPDATER: function used to update the current number - updated when operator is added - default addDigitToNumberOne
  */
 function buildCleanState() {
@@ -50,7 +50,7 @@ function calculateValue(state) {
       value = num1 / num2;
       break;
     default:
-      console.log("Unrecognized operator, op=" + op);
+      console.log('Unrecognized operator, op=' + op);
       return state;
   }
   let newState = buildCleanState();
